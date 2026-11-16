@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f8a4f">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Sobat Pintar</title>
+<style>
+:root{--bg:#edf5f1;--solid:#f7fbf9;--card:rgba(255,255,255,.78);--tx:#10201a;--mut:#5b6e64;--pri:#0f8a4f;--on:#fff;--bd:rgba(15,138,79,.17);--warn:#c2410c;--g1:#0f8a4f;--g2:#0b7f86;--glow:rgba(15,138,79,.26);color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#06100c;--solid:#0d1a15;--card:rgba(24,40,33,.62);--tx:#e9f5ef;--mut:#8fa89b;--pri:#34d399;--on:#04130c;--bd:rgba(52,211,153,.18);--warn:#fb923c;--g1:#34d399;--g2:#22d3ee;--glow:rgba(52,211,153,.3);color-scheme:dark}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);padding-top:env(safe-area-inset-top,0px)}
+header{padding:14px 14px 4px;font-size:18px;font-weight:700}
+main{padding:8px 12px 150px}
+input,select{width:100%;padding:11px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font:inherit;margin:4px 0 10px}
+label{display:block;font-size:13px;color:var(--mut)}
+button{font:inherit;color:var(--tx);cursor:pointer}
+.btn{background:var(--pri);color:var(--on);border:0;border-radius:10px;padding:11px 16px;font-weight:700}
+.ghost{background:transparent;border:1px solid var(--bd);border-radius:10px;padding:11px 16px}
+.wide{width:100%;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px}
+.tile{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;text-align:left;display:flex;flex-direction:column;gap:2px;min-height:78px}
+.tile span{color:var(--pri);font-weight:700}.tile small,.mut,small{color:var(--mut)}
+.tile i{position:absolute;top:6px;right:6px;background:var(--pri);color:var(--on);border-radius:99px;min-width:22px;height:22px;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:700}
+.habis{opacity:.45}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.r{text-align:right}.warn{color:var(--warn)}.tot{font-size:17px;border:0}
+.qty{display:flex;align-items:center;gap:10px}.qty button{width:34px;height:34px;border-radius:8px;border:1px solid var(--bd);background:var(--card);font-size:18px}
+.bar{position:fixed;left:10px;right:10px;bottom:calc(60px + env(safe-area-inset-bottom,0px));background:var(--card);border:1px solid var(--pri);border-radius:14px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 18px #0003}
+nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{background:none;border:0;padding:12px 0;color:var(--mut);font-weight:600}nav button.on{color:var(--pri)}
+dialog{border:0;border-radius:16px;padding:16px;width:min(92vw,420px);background:var(--card);color:var(--tx);max-height:88vh}
+dialog::backdrop{background:#0008}
+.acts{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}.acts button{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}.chips button{border:1px solid var(--bd);background:var(--bg);border-radius:99px;padding:7px 12px}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.stat div{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px}.stat b{display:block;font-size:17px}
+h3{margin:4px 0 8px}h4{margin:16px 0 4px}
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:#111;color:#fff;padding:9px 16px;border-radius:99px;z-index:99;display:none}
+pre{white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:10px;font:13px/1.4 ui-monospace,monospace;margin:0}
+
+body{background:radial-gradient(60% 38% at 92% -4%,var(--glow),transparent 70%),radial-gradient(50% 30% at -8% 32%,var(--glow),transparent 70%),var(--bg);background-attachment:fixed;min-height:100vh}
+header{display:flex;align-items:center;gap:10px;padding:16px 14px 6px}
+header small{display:block;color:var(--mut);font-size:12px;line-height:1.1}
+.lg{position:relative;width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,var(--g1),var(--g2));color:var(--on);display:grid;place-items:center;font-weight:800;font-size:21px;box-shadow:0 4px 16px var(--glow)}
+.lg::after{content:"✦";position:absolute;top:-6px;right:-5px;font-size:13px;color:var(--g2)}
+.brand{font-size:19px;background:linear-gradient(90deg,var(--g1),var(--g2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.card,.tile,.stat div,.bar,nav{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.card,.tile,.stat div{border-radius:16px}
+.btn{background:linear-gradient(135deg,var(--g1),var(--g2));color:var(--on);box-shadow:0 6px 18px var(--glow)}
+.btn,.tile,.ghost,.chips button{transition:transform .12s,box-shadow .2s}
+.btn:active,.tile:active,.ghost:active{transform:scale(.95)}
+.tile i{animation:pop .25s cubic-bezier(.2,1.6,.4,1)}
+.stat b{font-size:21px}
+dialog{background:var(--solid);border:1px solid var(--bd);box-shadow:0 20px 60px #0006}
+dialog[open]{animation:up .25s ease}
+nav button.on{text-shadow:0 0 14px var(--glow)}
+@keyframes pop{from{transform:scale(.3)}to{transform:scale(1)}}
+@keyframes up{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><span class="lg">S</span><div><b class="brand">Sobat Pintar</b><small id="wn"></small></div></header>
+<main id="v"></main>
+<nav>
+<button data-t="kasir" onclick="go('kasir')">Kasir</button>
+<button data-t="produk" onclick="go('produk')">Barang</button>
+<button data-t="utang" onclick="go('utang')">Utang</button>
+<button data-t="biaya" onclick="go('biaya')">Biaya</button>
+<button data-t="lap" onclick="go('lap')">Laporan</button>
+</nav>
+<dialog id="dg"></dialog>
+<div id="toast"></div>
+<script>
+const K='kasirwarung.v1';
+let D={nama:'',produk:[],trx:[],utang:{}},tab='kasir',cart={},cartX=[],q='',rng='hari';
+try{const raw=localStorage.getItem(K)||'{}';try{D=Object.assign(D,JSON.parse(raw))}catch(x){localStorage.setItem(K+'.rusak',raw);alert('Data terbaca rusak. Salinannya disimpan terpisah, jangan hapus data situs.')}}catch(x){}
+function fix(){D.pengeluaran=D.pengeluaran||[];D.byu=D.byu||[];D.utang=D.utang||{};D.biji=D.biji||{siomay:{stok:null,modal:0},batagor:{stok:null,modal:0},kemasan:0,per:1000,bonus:1,min:2000};D.trx.forEach(x=>{if(x.sub==null){x.sub=x.total;x.diskon=0;x.metode=x.utang?'utang':'tunai';x.tunai=x.utang?0:x.total;x.qris=0}})}
+fix();
+const $=id=>document.getElementById(id),dlg=$('dg');
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(D));return true}catch(x){alert('Penyimpanan penuh. Ekspor backup dulu.');return false}};
+const rp=n=>'Rp'+Math.round(n).toLocaleString('id-ID');
+const e=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const P=id=>D.produk.find(p=>p.id===id);
+const total=()=>Object.keys(cart).reduce((a,id)=>a+cart[id]*P(id).harga,0)+cartX.reduce((a,c)=>a+c.harga,0);
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',1800)}
+function go(t){tab=t;render()}
+function render(){
+ $('wn').textContent=D.nama||'';
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
+ $('v').innerHTML={kasir:vKasir,produk:vProduk,utang:vUtang,biaya:vBiaya,lap:vLap}[tab]();
+}
+/* ---- KASIR ---- */
+function grid(){
+ if(!D.produk.length)return '<p class="mut">Belum ada barang. Buka tab Barang untuk menambah.</p>';
+ return D.produk.filter(p=>p.nama.toLowerCase().includes(q.toLowerCase())).map(p=>`<button class="tile ${p.stok!=null&&p.stok<=0?'habis':''}" onclick="add('${p.id}')"><b>${e(p.nama)}</b><span>${rp(p.harga)}</span>${p.stok!=null?`<small>stok ${p.stok}</small>`:''}${cart[p.id]?`<i>${cart[p.id]}</i>`:''}</button>`).join('');
+}
+function vKasir(){
+ const n=Object.values(cart).reduce((a,b)=>a+b,0)+cartX.length;
+ return backupNote()+nomCard()+`<input placeholder="Cari barang..." value="${e(q)}" oninput="q=this.value;$('grid').innerHTML=grid()"><div id="grid" class="grid">${grid()}</div>`+
+ (n?`<div class="bar"><div><b>${n} barang</b><br>${rp(total())}</div><button class="btn" onclick="keranjang()">Keranjang</button></div>`:'');
+}
+function add(id){const p=P(id);if(p.stok!=null&&(cart[id]||0)>=p.stok)return toast('Stok tidak cukup');cart[id]=(cart[id]||0)+1;render()}
+function ubah(id,d){const p=P(id),n=(cart[id]||0)+d;if(d>0&&p.stok!=null&&n>p.stok)return toast('Stok tidak cukup');if(n<=0)delete cart[id];else cart[id]=n;render();keranjang()}
+function keranjang(){
+ const ids=Object.keys(cart);
+ if(!ids.length&&!cartX.length){dlg.close();return}
+ dlg.innerHTML=`<h3>Keranjang</h3>`+cartX.map((x,i)=>`<div class="row"><div>${e(x.nama)}</div><div class="qty"><b>${rp(x.harga)}</b><button onclick="cartX.splice(${i},1);render();keranjang()">×</button></div></div>`).join('')+ids.map(id=>{const p=P(id);return `<div class="row"><div>${e(p.nama)}<br><small>${rp(p.harga)}</small></div><div class="qty"><button onclick="ubah('${id}',-1)">−</button><b>${cart[id]}</b><button onclick="ubah('${id}',1)">+</button></div></div>`}).join('')+
+ `<div class="row tot"><b>Total</b><b>${rp(total())}</b></div><div class="acts"><button class="ghost" onclick="cart={};cartX=[];dlg.close();render()">Kosongkan</button><button class="btn" onclick="bayar()">Bayar</button></div>`;
+ if(!dlg.open)dlg.showModal();
+}
+let mt='tunai',dk='',busy=false,rd1='',rd2='';
+const net=()=>Math.max(0,total()-(+dk||0));
+const qv=()=>mt==='qris'?net():mt==='campur'?Math.min(net(),+($('qr')||{}).value||0):0;
+function bayar(){
+ dlg.innerHTML=`<h3>Bayar</h3><label>Diskon (Rp)<input type="number" inputmode="numeric" value="${dk}" oninput="dk=this.value;kemb()"></label><div class="chips">${['tunai','qris','campur'].map(m=>`<button style="${mt===m?'background:var(--pri);color:var(--on)':''}" onclick="mt='${m}';bayar()">${m.toUpperCase()}</button>`).join('')}</div><div class="row tot"><b>Total</b><b id="tt"></b></div>${mt==='campur'?'<label>Bayar QRIS (Rp)<input id="qr" type="number" inputmode="numeric" oninput="kemb()"></label>':''}${mt!=='qris'?`<div class="chips"><button onclick="uang(0)">Uang pas</button>${[5000,10000,20000,50000,100000].map(x=>`<button onclick="uang(${x})">${x/1000}rb</button>`).join('')}</div><label>Uang tunai diterima<input id="byr" type="number" inputmode="numeric" oninput="kemb()"></label>`:''}<div id="kmb" class="row tot"></div><div class="acts"><button class="ghost" onclick="keranjang()">Kembali</button><button class="btn" onclick="selesai(false)">Selesai</button></div><h4>Atau catat sebagai utang</h4><input id="unm" placeholder="Nama pelanggan"><button class="ghost wide" onclick="selesai(true)">Catat utang</button>`;
+ kemb();
+}
+function uang(x){$('byr').value=x||net()-qv();kemb()}
+function kemb(){const k=(mt==='qris'?0:+($('byr')||{}).value||0)-(net()-qv());$('tt').textContent=rp(net());
+ $('kmb').innerHTML=mt==='qris'?'<b>Dibayar QRIS</b><b>'+rp(net())+'</b>':`<b>${k<0?'Kurang':'Kembali'}</b><b class="${k<0?'warn':''}">${rp(Math.abs(k))}</b>`}
+function selesai(ut){
+ if(busy)return;const sub=total();if(sub<=0)return toast('Keranjang kosong');
+ const dsc=Math.min(Math.max(+dk||0,0),sub),t=sub-dsc;let nm='',q=0,tn=0,b=0;
+ if(ut){nm=$('unm').value.trim();if(!nm||/^(__proto__|constructor|prototype)$/.test(nm))return toast('Isi nama pelanggan yang valid')}
+ else{q=qv();tn=t-q;b=mt==='qris'?0:+$('byr').value||0;if(b<tn)return toast('Uang kurang')}
+ for(const id of Object.keys(cart)){const p=P(id);if(p.stok!=null&&cart[id]>p.stok)return toast('Stok '+p.nama+' tidak cukup')}
+ busy=true;const snap=JSON.stringify([D.produk,D.biji,D.utang]);
+ const items=Object.keys(cart).map(id=>{const p=P(id);if(p.stok!=null)p.stok-=cart[id];return{id,nama:p.nama,qty:cart[id],harga:p.harga,modal:p.modal||0}});
+ cartX.forEach(c=>{['siomay','batagor'].forEach(j=>{if(c[j]&&D.biji[j].stok!=null)D.biji[j].stok-=c[j]});items.push({id:c.id,nama:c.nama,jenis:c.jenis,qty:1,harga:c.harga,modal:c.modal,biji:c.biji,sm:c.siomay,bt:c.batagor,mb:c.mb})});
+ const x={id:uid(),t:Date.now(),items,sub,diskon:dsc,total:t,bayar:b,metode:ut?'utang':mt,tunai:tn,qris:q,utang:nm||null};
+ D.trx.push(x);if(nm)D.utang[nm]=(D.utang[nm]||0)+t;
+ if(!save()){D.trx.pop();[D.produk,D.biji,D.utang]=JSON.parse(snap);busy=false;return toast('Gagal menyimpan, transaksi dibatalkan')}
+ cart={};cartX=[];dk='';mt='tunai';busy=false;render();struk(x.id);
+}
+const teks=x=>`*${D.nama||'Warung'}*\n${new Date(x.t).toLocaleString('id-ID')}\n`+x.items.map(i=>`${i.biji?i.nama:i.nama+' '+i.qty+' x '+rp(i.harga)} = ${rp(i.qty*i.harga)}`).join('\n')+(x.diskon?`\nDiskon: -${rp(x.diskon)}`:'')+`\nTotal: ${rp(x.total)}`+(x.utang?`\nUTANG a.n. ${x.utang}`:(x.qris?`\nQRIS: ${rp(x.qris)}`:'')+(x.tunai?`\nTunai: ${rp(x.bayar)}\nKembali: ${rp(x.bayar-x.tunai)}`:''))+'\nTerima kasih';
+function struk(id){
+ const x=D.trx.find(t=>t.id===id);if(!x)return;
+ dlg.innerHTML=`<h3>Struk${x.batal?' (DIBATALKAN)':''}</h3><pre>${e(teks(x))}</pre><div class="acts"><button class="ghost" onclick="dlg.close()">Tutup</button><button class="ghost" onclick="navigator.clipboard&&navigator.clipboard.writeText(teks(D.trx.find(t=>t.id==='${id}'))).then(()=>toast('Disalin'))">Salin</button><button class="btn" onclick="window.open('https://wa.me/?text='+encodeURIComponent(teks(D.trx.find(t=>t.id==='${id}'))))">WhatsApp</button></div>${x.batal?'':`<button class="ghost wide" style="margin-top:8px" onclick="batal('${id}')">Batalkan transaksi</button>`}`;
+ if(!dlg.open)dlg.showModal();
+}
+function batal(id){
+ const x=D.trx.find(t=>t.id===id);if(!x||x.batal||!confirm('Batalkan transaksi ini? Stok dikembalikan.'))return;
+ x.items.forEach(i=>{if(i.biji){[['siomay',i.sm],['batagor',i.bt]].forEach(([k,v])=>{if(v&&D.biji[k].stok!=null)D.biji[k].stok+=v})}else{const p=P(i.id);if(p&&p.stok!=null)p.stok+=i.qty}});
+ if(x.utang&&D.utang[x.utang]!=null){D.utang[x.utang]=Math.max(0,D.utang[x.utang]-x.total);if(!D.utang[x.utang])delete D.utang[x.utang]}
+ x.batal=true;save();dlg.close();render();toast('Transaksi dibatalkan');
+}
+/* ---- BARANG ---- */
+function vProduk(){
+ return `<div class="acts"><button class="ghost" onclick="fsb()">Siomay & Batagor</button><button class="ghost" onclick="kalk()">Hitung modal</button></div>`+`<button class="btn wide" onclick="fp()">+ Tambah barang</button>`+D.produk.map(p=>`<div class="row card" onclick="fp('${p.id}')"><div><b>${e(p.nama)}</b><br><small>Modal ${rp(p.modal||0)} · Untung ${rp(p.harga-(p.modal||0))}</small></div><div class="r"><b>${rp(p.harga)}</b><br><small class="${p.stok!=null&&p.stok<=5?'warn':''}">${p.stok==null?'stok bebas':'stok '+p.stok}</small></div></div>`).join('');
+}
+function fp(id){
+ const p=id?P(id):{nama:'',harga:'',modal:'',stok:null};
+ dlg.innerHTML=`<h3>${id?'Ubah':'Tambah'} barang</h3><label>Nama<input id="fn" value="${e(p.nama)}"></label><label>Harga jual<input id="fh" type="number" inputmode="numeric" value="${p.harga}"></label><label>Harga modal<input id="fm" type="number" inputmode="numeric" value="${p.modal}"></label><label>Stok (kosongkan jika tidak dihitung)<input id="fs" type="number" inputmode="numeric" value="${p.stok==null?'':p.stok}"></label>
+ <div class="acts">${id?`<button class="ghost" onclick="hapusP('${id}')">Hapus</button>`:''}<button class="ghost" onclick="dlg.close()">Batal</button><button class="btn" onclick="simpanP('${id||''}')">Simpan</button></div>`;
+ dlg.showModal();
+}
+function simpanP(id){
+ const nama=$('fn').value.trim(),harga=+$('fh').value;if(!nama||!(harga>0))return toast('Isi nama dan harga');
+ const o={nama,harga,modal:+$('fm').value||0,stok:$('fs').value===''?null:+$('fs').value};if(o.modal<0||(o.stok!=null&&o.stok<0))return toast('Angka tidak boleh negatif');
+ if(id)Object.assign(P(id),o);else D.produk.push({id:uid(),...o});
+ save();dlg.close();render();
+}
+function hapusP(id){if(confirm('Hapus barang ini?')){D.produk=D.produk.filter(p=>p.id!==id);delete cart[id];save();dlg.close();render()}}
+/* ---- UTANG ---- */
+function vUtang(){
+ const L=Object.entries(D.utang).filter(([,v])=>v>0);
+ if(!L.length)return '<p class="mut">Tidak ada utang pelanggan.</p>';
+ return `<div class="stat"><div><small>Total utang beredar</small><b>${rp(L.reduce((a,[,v])=>a+v,0))}</b></div></div>`+L.map(([n,v])=>`<div class="row card"><div><b>${e(n)}</b><br><small class="warn">${rp(v)}</small></div><button class="btn" data-n="${e(n)}" onclick="bayarU(this.dataset.n)">Bayar</button></div>`).join('');
+}
+function bayarU(n){
+ dlg.innerHTML=`<h3>Bayar utang ${e(n)}</h3><p>Sisa: <b>${rp(D.utang[n])}</b></p>${D.byu.filter(b=>b.nama===n).slice(-5).map(b=>`<small>${new Date(b.t).toLocaleDateString('id-ID')}: dibayar ${rp(b.jml)}</small><br>`).join('')}<label>Jumlah dibayar<input id="ju" type="number" inputmode="numeric" value="${D.utang[n]}"></label><div class="acts"><button class="ghost" onclick="dlg.close()">Batal</button><button class="btn" id="ok">Simpan</button></div>`;
+ $('ok').onclick=()=>{const j=Math.min(+$('ju').value,D.utang[n]);if(!(j>0))return toast('Isi jumlah');D.utang[n]-=j;D.byu.push({t:Date.now(),nama:n,jml:j});if(D.utang[n]<=0)delete D.utang[n];save();dlg.close();render();toast('Tercatat')};
+ dlg.showModal();
+}
+/* ---- BIAYA ---- */
+const KAT=['Belanja bahan','Transportasi','Sewa tempat','Listrik','Kemasan','Gaji','Lainnya'];
+const hariIni=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+function vBiaya(){
+ return `<button class="btn wide" onclick="fb()">+ Catat pengeluaran</button>`+(D.pengeluaran.slice().reverse().slice(0,50).map(b=>`<div class="row card"><div><b>${e(b.kat)}</b><br><small>${new Date(b.t).toLocaleDateString('id-ID')}${b.ket?' · '+e(b.ket):''}</small></div><div class="r"><b>${rp(b.jml)}</b><br><small class="warn" onclick="hapusB('${b.id}')">hapus</small></div></div>`).join('')||'<p class="mut">Belum ada pengeluaran. Catat belanja bahan, gas, dan biaya lain agar laba bersih benar.</p>');
+}
+function fb(){
+ dlg.innerHTML=`<h3>Catat pengeluaran</h3><label>Kategori<select id="bk">${KAT.map(k=>`<option>${k}</option>`).join('')}</select></label><label>Nominal<input id="bj" type="number" inputmode="numeric"></label><label>Tanggal<input id="bt" type="date" value="${hariIni()}"></label><label>Keterangan (opsional)<input id="bn"></label><div class="acts"><button class="ghost" onclick="dlg.close()">Batal</button><button class="btn" onclick="simpanBiaya()">Simpan</button></div>`;dlg.showModal();
+}
+function simpanBiaya(){
+ const j=+$('bj').value,d=new Date($('bt').value+'T12:00:00');if(!(j>0))return toast('Isi nominal');if(isNaN(d))return toast('Tanggal tidak valid');
+ D.pengeluaran.push({id:uid(),t:d.getTime(),kat:$('bk').value,jml:j,ket:$('bn').value.trim()});save();dlg.close();render();
+}
+function hapusB(id){if(confirm('Hapus catatan ini?')){D.pengeluaran=D.pengeluaran.filter(b=>b.id!==id);save();render()}}
+/* ---- LAPORAN ---- */
+function vLap(){
+ const n=new Date(),DAY=864e5,y=n.getFullYear(),m=n.getMonth();let s=new Date(y,m,n.getDate()).getTime(),en=s+DAY;
+ if(rng==='7')s-=6*DAY;if(rng==='bln')s=new Date(y,m,1).getTime();if(rng==='thn')s=new Date(y,0,1).getTime();
+ if(rng==='lalu'){s=new Date(y,m-1,1).getTime();en=new Date(y,m,1).getTime()}
+ if(rng==='tgl'){s=rd1?new Date(rd1+'T00:00:00').getTime():0;en=rd2?new Date(rd2+'T00:00:00').getTime()+DAY:Date.now()+DAY}
+ const T=D.trx.filter(x=>!x.batal&&x.t>=s&&x.t<en).sort((a,b)=>b.t-a.t),sum=f=>T.reduce((a,x)=>a+f(x),0);
+ const omzet=sum(x=>x.total),hpp=sum(x=>x.items.reduce((b,i)=>b+i.modal*i.qty,0)),kotor=omzet-hpp;
+ const biaya=D.pengeluaran.filter(b=>b.t>=s&&b.t<en).reduce((a,b)=>a+b.jml,0),byr=D.byu.filter(b=>b.t>=s&&b.t<en).reduce((a,b)=>a+b.jml,0);
+ const blm=T.some(x=>x.items.some(i=>i.mb)),L=v=>blm?'modal belum diisi':rp(v);
+ const mp={};T.forEach(x=>x.items.forEach(i=>{const k=i.jenis||i.nama;mp[k]=(mp[k]||0)+(i.biji||i.qty)}));
+ const top=Object.entries(mp).sort((a,b)=>b[1]-a[1]).slice(0,5),tipis=D.produk.filter(p=>p.stok!=null&&p.stok<=5);
+ const st=(l,v)=>`<div><small>${l}</small><b>${v}</b></div>`;
+ return `<div class="chips">${[['hari','Hari ini'],['7','7 hari'],['bln','Bulan ini'],['lalu','Bulan lalu'],['thn','Tahun ini'],['tgl','Tanggal']].map(([k,l])=>`<button style="${rng===k?'background:var(--pri);color:var(--on)':''}" onclick="rng='${k}';render()">${l}</button>`).join('')}</div>
+ ${rng==='tgl'?`<div style="display:flex;gap:6px"><input type="date" value="${rd1}" onchange="rd1=this.value;render()"><input type="date" value="${rd2}" onchange="rd2=this.value;render()"></div>`:''}
+ <div class="stat">${st('Transaksi',T.length)}${st('Omzet',rp(omzet))}${st('Tunai',rp(sum(x=>x.utang?0:x.tunai||0)))}${st('QRIS',rp(sum(x=>x.qris||0)))}${st('Kredit',rp(sum(x=>x.utang?x.total:0)))}${st('HPP (modal)',L(hpp))}${st('Laba kotor',L(kotor))}${st('Pengeluaran',rp(biaya))}${st('Laba bersih',L(kotor-biaya))}${st('Utang dibayar',rp(byr))}${st('Sisa piutang',rp(Object.values(D.utang).reduce((a,b)=>a+b,0)))}</div>
+ <h4>Terlaris</h4>${top.map(([k,c])=>`<div class="row"><span>${e(k)}</span><b>${c}</b></div>`).join('')||'<p class="mut">Belum ada penjualan.</p>'}
+ <h4>Stok menipis</h4>${tipis.map(p=>`<div class="row"><span>${e(p.nama)}</span><b class="warn">${p.stok}</b></div>`).join('')||'<p class="mut">Aman.</p>'}
+ <h4>Riwayat</h4>${T.slice(0,30).map(x=>`<div class="row" onclick="struk('${x.id}')"><span>${new Date(x.t).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})} · ${(x.metode||'tunai')}${x.utang?' '+e(x.utang):''}</span><b>${rp(x.total)}</b></div>`).join('')||'<p class="mut">Kosong.</p>'}
+ <h4>Pengaturan</h4><label>Nama warung (tampil di struk)<input value="${e(D.nama||'')}" onchange="D.nama=this.value.trim();save();render()"></label>
+ <div class="acts"><button class="ghost" onclick="ekspor()">Ekspor backup</button><button class="ghost" onclick="$('imp').click()">Impor</button></div><input id="imp" type="file" accept=".json" hidden onchange="impor(this)">`;
+}
+const backupNote=()=>D.trx.length>0&&(!D.lastBackup||Date.now()-D.lastBackup>6048e5)?`<div class="card warn" onclick="go('lap')">Belum ada backup dalam 7 hari. Ketuk di sini, lalu pilih Ekspor backup di Laporan.</div>`:'';
+function ekspor(){D.lastBackup=Date.now();save();
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(D)],{type:'application/json'}));
+ a.download='kasir-warung-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+}
+function impor(inp){
+ const f=inp.files[0];if(!f)return;const r=new FileReader();
+ r.onload=()=>{try{const o=JSON.parse(r.result);
+  if(!Array.isArray(o.produk)||!Array.isArray(o.trx)||o.produk.some(p=>!p.id||!(p.harga>=0))||o.trx.some(x=>!x.id||!Array.isArray(x.items)))throw 0;
+  if(!confirm('Ganti semua data dengan backup ini? Data sekarang disimpan dulu sebagai cadangan.'))return;
+  try{localStorage.setItem(K+'.sebelum-impor',JSON.stringify(D))}catch(x){return toast('Penyimpanan penuh, impor dibatalkan')}
+  D=Object.assign({nama:'',produk:[],trx:[],utang:{}},o);fix();save();render();toast('Backup dipulihkan')}catch(x){toast('File backup tidak valid')}};
+ r.readAsText(f);
+}
+/* ---- SIOMAY & BATAGOR ---- */
+let nom=0,kj='siomay',kbv='',kr=[{n:'',h:''}];
+const B=()=>D.biji;
+const jb=n=>n>=B().min?Math.floor(n/B().per)+B().bonus:0;
+const pv=()=>!nom?'Ketik nominal atau pilih di atas':nom<B().min?'Minimal '+rp(B().min):'= '+jb(nom)+' biji';
+function nomCard(){
+ return `<div class="card"><b>Siomay / Batagor</b><input id="nom" type="number" inputmode="numeric" placeholder="Ketik nominal, misal 5000" value="${nom||''}" oninput="nom=+this.value||0;$('pv').textContent=pv()"><div class="chips">${[2000,3000,4000,5000,10000].map(x=>`<button onclick="nom=${x};$('nom').value=${x};$('pv').textContent=pv()">${x/1000}rb</button>`).join('')}</div><div id="pv" class="mut">${pv()}</div><div class="acts"><button class="btn" onclick="addB('Siomay')">Siomay</button><button class="btn" onclick="addB('Batagor')">Batagor</button><button class="ghost" onclick="addB('Campur')">Campur</button></div></div>`;
+}
+function addB(j,s){
+ const n=jb(nom);if(!n)return toast(nom?'Minimal '+rp(B().min):'Isi nominal dulu');
+ if(j==='Campur'&&s==null)return campur(n);
+ const si=j==='Siomay'?n:j==='Batagor'?0:s,bt=n-si;
+ for(const [k,v] of [['siomay',si],['batagor',bt]]){const st=B()[k].stok,used=cartX.reduce((a,c)=>a+(c[k]||0),0);if(st!=null&&used+v>st)return toast('Stok '+k+' tidak cukup')}
+ const mb=(!B().siomay.modal&&si>0)||(!B().batagor.modal&&bt>0);
+ const modal=si*B().siomay.modal+bt*B().batagor.modal+(+B().kemasan||0);
+ cartX.push({id:uid(),jenis:j,nama:j==='Campur'?`Campur (${si} siomay, ${bt} batagor)`:`${j} ${n} biji`,harga:nom,modal,biji:n,siomay:si,batagor:bt,mb});
+ nom=0;render();
+}
+function campur(n){
+ dlg.innerHTML=`<h3>Campur ${n} biji</h3><label>Jumlah siomay<input id="cs" type="number" inputmode="numeric" value="${Math.ceil(n/2)}" oninput="$('cb').textContent=Math.max(0,${n}-(+this.value||0))"></label><p>Batagor: <b id="cb">${Math.floor(n/2)}</b> biji</p><div class="acts"><button class="ghost" onclick="dlg.close()">Batal</button><button class="btn" id="okc">Tambah</button></div>`;
+ $('okc').onclick=()=>{const s=+$('cs').value;if(!(s>=0&&s<=n))return toast('Jumlah tidak sesuai');dlg.close();addB('Campur',s)};
+ dlg.showModal();
+}
+function fsb(){
+ const b=B(),f=(id,l,v)=>`<label>${l}<input id="${id}" type="number" inputmode="numeric" value="${v}"></label>`;
+ dlg.innerHTML=`<h3>Siomay & Batagor</h3>${f('s1','Stok siomay (biji, kosong = tidak dihitung)',b.siomay.stok??'')}${f('s2','Stok batagor (biji)',b.batagor.stok??'')}${f('m1','Modal per biji siomay',b.siomay.modal||'')}${f('m2','Modal per biji batagor',b.batagor.modal||'')}${f('k1','Biaya kemasan per pembelian (plastik, saus)',b.kemasan||'')}<label>Aturan biji: Rp per biji / bonus biji / minimal beli<span style="display:flex;gap:6px"><input id="a1" type="number" value="${b.per}"><input id="a2" type="number" value="${b.bonus}"><input id="a3" type="number" value="${b.min}"></span></label><div class="acts"><button class="ghost" onclick="dlg.close()">Batal</button><button class="btn" onclick="simpanB()">Simpan</button></div>`;
+ dlg.showModal();
+}
+function simpanB(){
+ const v=id=>$(id).value,st=id=>v(id)===''?null:+v(id);
+ Object.assign(B().siomay,{stok:st('s1'),modal:+v('m1')||0});Object.assign(B().batagor,{stok:st('s2'),modal:+v('m2')||0});
+ B().kemasan=+v('k1')||0;B().per=+v('a1')||1000;B().bonus=+v('a2')||0;B().min=+v('a3')||0;
+ save();dlg.close();render();toast('Tersimpan');
+}
+const ktot=()=>kr.reduce((a,r)=>a+(+r.h||0),0);
+function kt(){const t=ktot(),b=+kbv||0;$('kh').innerHTML=`<span>Total ${rp(t)}</span><b>${b?rp(t/b)+' / biji':'-'}</b>`}
+function kalk(){
+ dlg.innerHTML=`<h3>Hitung modal</h3><div class="chips">${['siomay','batagor'].map(j=>`<button style="${kj===j?'background:var(--pri);color:var(--on)':''}" onclick="kj='${j}';kalk()">${j}</button>`).join('')}</div><small>Isi bahan yang terpakai untuk satu kali bikin</small>${kr.map((r,i)=>`<div style="display:flex;gap:6px"><input placeholder="Bahan" value="${e(r.n)}" oninput="kr[${i}].n=this.value"><input type="number" inputmode="numeric" placeholder="Rp" value="${r.h}" oninput="kr[${i}].h=this.value;kt()"></div>`).join('')}<button class="ghost wide" onclick="kr.push({n:'',h:''});kalk()">+ Bahan</button><label>Jumlah ${kj} yang jadi (biji)<input type="number" inputmode="numeric" value="${kbv}" oninput="kbv=this.value;kt()"></label><div class="row tot" id="kh"></div><div class="acts"><button class="ghost" onclick="dlg.close()">Tutup</button><button class="btn" onclick="pakaiK()">Pakai sebagai modal</button></div>`;
+ kt();if(!dlg.open)dlg.showModal();
+}
+function pakaiK(){
+ const t=ktot(),b=+kbv||0;if(!t||!b)return toast('Isi bahan dan jumlah biji');
+ B()[kj].modal=Math.round(t/b);save();dlg.close();toast('Modal '+kj+' '+rp(B()[kj].modal)+' per biji');
+}
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{})}catch(x){}
+render();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
